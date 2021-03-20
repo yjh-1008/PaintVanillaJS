@@ -1,35 +1,35 @@
 import java.util.Scanner;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.*;
 public class Main {
-    public static void main(String[] args){
-        //StringBuilder sb=new StringBuilder();
-        Scanner sc=new Scanner(System.in);
-       ArrayList<Integer> arr=new ArrayList<Integer>();
-        int n=sc.nextInt();
-        int k=sc.nextInt();
-        //동전을 넣어줌
-        for(int i=0;i<n;i++){
-            arr.add(sc.nextInt());
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int room[][] = new int[n][2];
+        //회의시간 넣어주기 0행이 시작시간, 1행이 종료시간
+        for (int i = 0; i < n; i++) {
+            room[i][0] = sc.nextInt();
+            room[i][1] = sc.nextInt();
         }
-        int t=0;
-        //나눠지는 가장 큰 값을 찾기
-        for(int i=n-1;i>0;i--){
-         if(k/arr.get(i)!=0) {// 나눠지는 값이 0이 아닌 가장 큰 수의 인덱스를 찾기
-             t = i;
-             break;
-             }
-         }
-        //System.out.println(t);
-         int count=0;//나눠지는 나머지를 더하는 변수.
-        while(k!=0){
-            if(k>=arr.get(t)){
-                count+=k/arr.get(t);
-                k%=arr.get(t);
+        Arrays.sort(room, new Comparator<int[]>() {
+            public int compare(int a1[], int a2[]) {
+                if (a1[1] == a2[1]) {
+                    return a1[0] - a2[0];
+                }
+                return a1[1] - a2[1];
             }
-            t--;
+        });
+        int end=0;
+        int result=0;
+        for(int i=0;i<n;i++){
+            if(end<=room[i][0]){
+                result++;
+                end=room[i][1];
+            }
         }
-        System.out.print(count);
-        }
+        System.out.print(result);
     }
+}
 
